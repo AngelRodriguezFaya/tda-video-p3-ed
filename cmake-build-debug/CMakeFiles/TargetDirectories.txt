@@ -1,0 +1,6 @@
+/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/CMakeFiles/video.dir
+/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/CMakeFiles/rebobinar.dir
+/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/CMakeFiles/morphing.dir
+/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/CMakeFiles/doc_doxygen.dir
+/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/CMakeFiles/rebuild_cache.dir
