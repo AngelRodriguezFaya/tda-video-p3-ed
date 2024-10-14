@@ -19,6 +19,22 @@
 
 using namespace std;
 
+/**
+ * @brief T.D.A. Video
+ * 
+ * Una instancia del tipo de dato abstracto Video nos permite almacenar una secuencia de imágenes.
+ * 
+ * El TDA Video proporciona distintas herramientas para la manipulación de dichas imágenes, como son la inserción 
+ * y borrado de fotogramas, la lectura y escritura de videos en disco, el rebobinado de un video y la realización 
+ * de morphing entre dos imagenes.
+ * 
+ * \include video.h
+ * 
+ * @authors Gabriel Josué Marcano Grimán
+ *          Ángel Rodíguez Faya
+ * 
+ * @date Octubre 2024
+ */
 class Video{
 
     private:
@@ -105,8 +121,21 @@ class Video{
 
     bool EscribirVideo(const string & path, const string &prefijo)const;
 
+    Video Rebobinar(const Video &v);
 
-    };
+    /**
+     * @brief Realiza el morphing entre dos imagenes.
+     * Realiza una transicion entre dos imagenes, creando una ilusion de transformacion.
+     * 
+     * @param I1 Imagen inicial de la que se parte.
+     * @param I2 Imagen final.
+     * @param nf Numero de pasos para realizar la transformacion.
+     * @pre I1 y I2 deben tener el mismo tamaño, es decir, el mismo numero de fotogramas.
+     * @pre nf > 0, el numero de pasos no puede ser 0.
+     * @return Video con el morphing entre las dos imagenes.     * 
+     */
+    Video Morphing(const Image &I1, const Image &I2, int nf);
+
 };
 
 #endif // VIDEO__H
