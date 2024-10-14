@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(TDAVideo)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17) # Cambiado el estandar c++14 a c++17 debido a la implementacion de std::filesystem
 set(BASE_FOLDER estudiante)
 
 include_directories(${BASE_FOLDER}/include)
