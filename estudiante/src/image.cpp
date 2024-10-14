@@ -2,6 +2,11 @@
  * @file image.cpp
  * @brief Fichero con definiciones para los métodos primitivos de la clase Image
  *
+ * Modificado por: Ángel Rodríguez Faya.
+ * 
+ * Al compilar con C++17 hay una ambiguedad con el uso de la palabra "pixel"
+ * como tipo de dato, por lo que se ha cambiado a "pixel" para evitar conflictos. 
+ * 
  */
 
 #include <cstring>
@@ -16,23 +21,23 @@ using namespace std;
 /********************************
       FUNCIONES PRIVADAS
 ********************************/
-void Image::Allocate(int nrows, int ncols, byte * buffer){
+void Image::Allocate(int nrows, int ncols, pixel * buffer){
     rows = nrows;
     cols = ncols;
 
-    img = new byte * [rows];
+    img = new pixel * [rows];
 
     if (buffer != 0)
         img[0] = buffer;
     else
-        img[0] = new byte [rows * cols];
+        img[0] = new pixel [rows * cols];
 
     for (int i=1; i < rows; i++)
         img[i] = img[i-1] + cols;
 }
 
 // Función auxiliar para inicializar imágenes con valores por defecto o a partir de un buffer de datos
-void Image::Initialize (int nrows, int ncols, byte * buffer){
+void Image::Initialize (int nrows, int ncols, pixel * buffer){
     if ((nrows == 0) || (ncols == 0)){
         rows = cols = 0;
         img = 0;
@@ -66,7 +71,7 @@ LoadResult Image::LoadFromPGM(const char * file_path){
     if (ReadImageKind(file_path) != IMG_PGM)
         return LoadResult::NOT_PGM;
 
-    byte * buffer = ReadPGMImage(file_path, rows, cols);
+    pixel * buffer = ReadPGMImage(file_path, rows, cols);
     if (!buffer)
         return LoadResult::READING_ERROR;
 
@@ -85,7 +90,7 @@ Image::Image(){
 }
 
 // Constructores con parámetros
-Image::Image (int nrows, int ncols, byte value){
+Image::Image (int nrows, int ncols, pixel value){
     Initialize(nrows, ncols);
     for (int k=0; k<rows*cols; k++) set_pixel(k,value);
 }
@@ -143,15 +148,15 @@ int Image::get_cols() const {
 }
 
 // Métodos básicos de edición de imágenes
-void Image::set_pixel (int i, int j, byte value) {
+void Image::set_pixel (int i, int j, pixel value) {
     img[i][j] = value;
 }
-byte Image::get_pixel (int i, int j) const {
+pixel Image::get_pixel (int i, int j) const {
     return img[i][j];
 }
 
 // This doesn't work if representation changes
-void Image::set_pixel (int k, byte value) {
+void Image::set_pixel (int k, pixel value) {
     int r,c;
     r = k/cols;
     c = k%cols;
@@ -159,7 +164,7 @@ void Image::set_pixel (int k, byte value) {
 }
 
 // This doesn't work if representation changes
-byte Image::get_pixel (int k) const {
+pixel Image::get_pixel (int k) const {
     int r,c;
     r = k/cols;
     c = k%cols;
@@ -170,7 +175,7 @@ byte Image::get_pixel (int k) const {
 // Métodos para almacenar y cargar imagenes en disco
 bool Image::Save (const char * file_path) const {
     // Write data to buffer
-    byte data[rows*cols];
+    pixel data[rows*cols];
     for (int k=0; k<rows*cols; k++) data[k]= get_pixel(k);
     // Save data
     return WritePGMImage(file_path, data, rows, cols);;
@@ -178,7 +183,7 @@ bool Image::Save (const char * file_path) const {
 
 void Image::ShuffleRows() {
     const int prime = 9973;
-    byte ** temp = new byte * [rows];
+    pixel ** temp = new pixel * [rows];
     for (int i=0; i<rows; i++){
         temp[i] = img[(i*prime)%rows];
     }

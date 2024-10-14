@@ -3,6 +3,12 @@
   * @brief Fichero de cabecera asociado a la biblioteca libimagen.a
   *
   * Implementación del TDA Imagen
+  * 
+  * Modificado por: Ángel Rodríguez Faya.
+  * 
+  * Al compilar con C++17 hay una ambiguedad con el uso de la palabra "pixel"
+  * como tipo de dato, por lo que se ha cambiado a "pixel" para evitar conflictos.
+  * 
   */
 
 #ifndef _IMAGEN_H_
@@ -13,8 +19,8 @@
 #include "imageIO.h"
 
 
-/*! unsigned char aliased as byte*/
-typedef unsigned char byte;
+/*! unsigned char aliased as pixel*/
+typedef unsigned char pixel;
 
 /*! Result for image loading*/
 enum LoadResult: unsigned char {
@@ -49,7 +55,7 @@ class Image{
       Un objeto válido 1 del TDA Imagen debe cumplir
         -I.rows >= O
         -I.cols >= O
-        -I.img apunta a una zona de memoria con capacidad para albergar I.rows*I.cols valores de tipo byte o a NULL si la imagen está vacía.
+        -I.img apunta a una zona de memoria con capacidad para albergar I.rows*I.cols valores de tipo pixel o a NULL si la imagen está vacía.
 
       @section faImagen Función de abstracción
 
@@ -65,7 +71,7 @@ private :
       img apunta a un array-2D dinámico de bytes que contiene la imagen en sí. Almacena tantos bytes como pixeles tenga la imagen.
 
     **/
-    byte **img;
+    pixel **img;
 
     /**
       @brief Número de filas de la imagen.
@@ -89,7 +95,7 @@ private :
       @post Reserva memoria para almacenar la imagen y la prepara para usarse.
     **/
 
-    void Initialize (int nrows= 0, int ncols= 0, byte *buffer= 0);
+    void Initialize (int nrows= 0, int ncols= 0, pixel *buffer= 0);
 
     /**
       @brief Lee una imagen PGM desde un archivo.
@@ -104,7 +110,7 @@ private :
     **/
     void Copy(const Image &orig);
 
-    void Allocate(int nrows, int ncols, byte * buffer = 0);
+    void Allocate(int nrows, int ncols, pixel * buffer = 0);
 
     /**
       * @brief Destroy una imagen
@@ -132,7 +138,7 @@ public :
       * @post La imagen creada es de n_fils y n_cols columnas. Estará inicializada al valor por defecto.
       * @return Imagen, el objeto imagen creado.
       */
-    Image(int nrows, int ncols, byte value=0);
+    Image(int nrows, int ncols, pixel value=0);
 
     /**
       * @brief Constructor de imágenes desde fichero.
@@ -196,7 +202,7 @@ public :
       * @post El píxel (fil, col) de la imagen se modificará y contendrá valor.
       * Los demás píxeles permanecerán iguales.
       */
-    void set_pixel (int i, int j, byte value);
+    void set_pixel (int i, int j, pixel value);
 
     /**
       * @brief Consulta el valor del píxel (fil, col) de la imagen.
@@ -206,7 +212,7 @@ public :
       * @return el valor del píxel contenido en (fil,col)
       * @post La imagen no se modifica.
       */
-    byte get_pixel (int i, int j) const;
+    pixel get_pixel (int i, int j) const;
 
     /**
       * @brief Consulta el valor del píxel k de la imagen desenrrollada.
@@ -215,7 +221,7 @@ public :
       * @return el valor del píxel contenido en (k/filas,k%filas)
       * @post La imagen no se modifica.
       */
-    byte get_pixel (int k) const;
+    pixel get_pixel (int k) const;
 
     /**
       * @brief Asigna el valor valor al píxel k de la imagen desenrollada.
@@ -224,7 +230,7 @@ public :
       * @pre 0 <= k < filas*columnas && O <= valor <= 255
       * @post El píxel k se modificará con el valor de value.
       */
-    void set_pixel (int k, byte value);
+    void set_pixel (int k, pixel value);
 
     /**
       * @brief Almacena imágenes en disco.
@@ -256,7 +262,7 @@ public :
       * @pre out1 < out2
       * @post El objeto que llama a la función es modificado.
       */
-    void AdjustContrast (byte in1, byte in2, byte out1, byte out2);
+    void AdjustContrast (pixel in1, pixel in2, pixel out1, pixel out2);
 
 
     /**
@@ -335,15 +341,15 @@ public :
     **/
     class Iterator{
     private:
-        byte * v{};
+        pixel * v{};
     public:
-        Iterator(byte * v):v(v){};
+        Iterator(pixel * v):v(v){};
         Iterator& operator++(){v++; return *this;};
         Iterator operator++(int){
             Iterator tmp = *this;
             ++(*this);
             return tmp;};
-        byte& operator*(){return *v;};
+        pixel& operator*(){return *v;};
         friend bool operator!=(const Iterator& a, const Iterator& b){ return a.v != b.v;}
     };
 

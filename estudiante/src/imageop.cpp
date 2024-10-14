@@ -1,6 +1,12 @@
 /**
  * @file imageop.cpp
- * @brief Fichero con definiciones para el resto de métodos de la clase Image
+ * @brief Fichero con definiciones para el resto de métodos de la clase Image.
+ * 
+ * Modificado por: Ángel Rodríguez Faya.
+ * 
+ * Al compilar con C++17 hay una ambiguedad con el uso de la palabra "pixel"
+ * como tipo de dato, por lo que se ha cambiado a "pixel" para evitar conflictos.
+ *  
  */
 
 #include <iostream>
@@ -16,13 +22,13 @@ using namespace std;
     Mejora del Contraste
     ********************************/
 
-    void Image::AdjustContrast (byte in1, byte in2, byte out1, byte out2){
+    void Image::AdjustContrast (pixel in1, pixel in2, pixel out1, pixel out2){
         double cociente0 = (double)(out1) / (double)(in1);
         double cociente1 = (double)(out2 - out1) / (double)(in2 - in1);
         double cociente2 = (double)(255 - out2) / (double)(255 - in2);
 
         for (int k=0; k<rows*cols; k++){
-            byte val = get_pixel(k);
+            pixel val = get_pixel(k);
             if      (val < in1)    val = round(0  + cociente0 * (val - 0));
             else if (val > in2)    val = round(out2 + cociente2 * (val - in2));
             else                  val = round(out1 + cociente1 * (val - in1));
@@ -63,7 +69,7 @@ using namespace std;
 
         for (int i=0; i<icono.rows; i++)
             for (int j=0; j<icono.cols; j++)
-                icono.set_pixel(i,j, (byte) round(Mean(i * factor, j * factor, factor, factor)));
+                icono.set_pixel(i,j, (pixel) round(Mean(i * factor, j * factor, factor, factor)));
 
             return icono;
     }
@@ -119,7 +125,7 @@ using namespace std;
                     b /= 2;
                 }
 
-                zoom.set_pixel(i,j,(byte) round(b));
+                zoom.set_pixel(i,j,(pixel) round(b));
             }
 
 
