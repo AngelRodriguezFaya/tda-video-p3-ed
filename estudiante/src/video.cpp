@@ -1,3 +1,15 @@
+/**
+ * @file video.cpp
+ * @brief Fichero con definiciones para los métodos de la clase Video.
+ *
+ * @authors Gabriel Josué Marcano Grimán
+ *          Ángel Rodíguez Faya
+ *
+ * @date Octubre 2024
+ *
+ * Implementación del TDA Video.
+ */
+
 #include <cstring>
 #include <cassert>
 #include <iostream>
@@ -165,20 +177,25 @@ Video Video::Morphing(const Image &I1, const Image &I2, int nf){
     //Creamos un video con nf fotogramas.
     Video morphing(nf);
 
-    for (int i = 0; i < nf; i++){  // Indice i de la imagen en la que nos encontramos.
+    for (double i = 0; i < nf; i++){  // Indice i de la imagen en la que nos encontramos.
 
         // Creo la imagen que ira en la posicion i del vector.
         Image img(I1.get_rows(), I1.get_cols(), 0); 
 
-        for(int k = 0; k < (img.get_rows() * img.get_cols()); k++){
+        for(int k = 0; k < img.get_rows(); k++){
+            for(int f = 0; f < img.get_cols(); f++){
 
-            int v_i1 = static_cast<int>(I1.get_pixel(k));
-            int v_i2 = static_cast<int>(I2.get_pixel(k));
+                double v1 = static_cast<double>(I1.get_pixel(k, f));
+                double v2 = static_cast<double>(I2.get_pixel(k, f));
 
-                int valor_pixel = v_i1 * (1-i/nf) + (v_i2*i)/nf;      // Formula para hacer morphing.
+                double valor = (v1 * (1-(i/nf))) + ((v2*i)/nf);      // Formula para hacer morphing.
+
+                pixel valor_pixel = static_cast<pixel>(valor);
                     
-                img.set_pixel(k, valor_pixel);
+                img.set_pixel(k, f, valor_pixel);
+            }
         }
+
             // Añado la imagen al video.
             morphing.insertar(i, img);    
     }
