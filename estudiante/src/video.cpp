@@ -69,13 +69,13 @@ void Video::borrar(int k){
 
 bool Video::LeerVideo(const string & path){
 
-    fs::path p = path;  // Ruta del directorio donde se encuentran las imágenes.
+    fs::path ruta = path;  // Ruta del directorio donde se encuentran las imágenes.
 
     // Verificamos que el path sea un directorio.
-    if (fs::exists(p) && fs::is_directory(p)){        
+    if (fs::exists(ruta) && fs::is_directory(ruta)){        
        
         // Iteramos sobre los archivos del directorio.
-        for (const auto &it : fs::directory_iterator(p)){
+        for (const auto &it : fs::directory_iterator(ruta)){
             
             // Verificamos que el archivo sea una imagen PGM.
             string extension = it.path().extension();
@@ -89,7 +89,7 @@ bool Video::LeerVideo(const string & path){
                     cout << "Imagen leida: " << it.path().filename() << endl;
                 }
                 
-                // Si nos e ha podido leer la imagen, mostramos un mensaje de error.
+                // Si nos se ha podido leer la imagen, mostramos un mensaje de error.
                 else{
                     cout << "Error al leer la imagen: " << it.path().filename() << endl;
                     cout << "Se finaliza la lectura del video." << endl;
@@ -99,9 +99,9 @@ bool Video::LeerVideo(const string & path){
         }
     }
 
-    // Si el path no es un dircetorio, finalizamos la lectura del video.
+    // Si el path no es un directorio, finalizamos la lectura del video.
     else{
-        cout << "Error: " << path << " no es un directorio válido." << endl;
+        cout << "Error: " << path << " no es un directorio valido para leer el video." << endl;
         cout << "Se finaliza la lectura del video." << endl;
         return false;
     }
@@ -112,6 +112,42 @@ bool Video::LeerVideo(const string & path){
 }
 
 bool Video::EscribirVideo(const string & path, const string &prefijo)const{
+
+    fs::path ruta = path;
+
+    // Compruebo que el video no esta vacio.
+    if((*this).size() > 0){
+
+        //Compruebo que el path existe y es un directorio.
+        if(fs::exists(ruta) && fs::is_directory(ruta)){
+
+            for(int i = 0; i < imagenes.size(); i++){
+                Image img = (*this)[i];
+                string path_completo = path + prefijo + to_string(i) + ".pgm";
+                
+                if(!img.Save(path_completo.c_str())){
+                    cout << "Imagen: " << prefijo + to_string(i) + ".pgm" << " no ha podido ser escrita" << endl;
+                    cout << "Se cancela la escritura del video." << endl;
+                    return false;
+                }
+            }
+        } 
+        
+        else{
+            cout << "Error: " << path << " no es un directorio valido para escribir el video." << endl;
+            cout << "Se finaliza la escritura del video." << endl;
+            return false;
+        }
+    } 
+    
+    else{
+        cout << "El video no tiene fotogramas." << endl;
+        cout << "Se finaliza la escritura del video." << endl;
+        return false;
+    }
+
+    cout << "La escritura del video en el disco se ha realizado con exito" << endl;
+    return true;
 }
 
 Video Video::Rebobinar(const Video &v){
@@ -123,60 +159,38 @@ Video Video::Morphing(const Image &I1, const Image &I2, int nf){
     assert( (I1.get_rows() == I2.get_rows()) && (I1.get_cols() == I2.get_cols()));
     assert(nf > 0);
 
-    cout << "Todo ok" << endl;
+    cout << "Los parametros introducidos son correctos." << endl;
+    cout << "Se procede a realizar el morphing. Espere un momento..." << endl;
 
     //Creamos un video con nf fotogramas.
     Video morphing(nf);
 
-    vector<Image>::iterator it = morphing.imagenes.begin();
+    for (int i = 0; i < nf; i++){  // Indice i de la imagen en la que nos encontramos.
 
-    for (; it != morphing.imagenes.end(); it++){
+        // Creo la imagen que ira en la posicion i del vector.
+        Image img(I1.get_rows(), I1.get_cols(), 0); 
 
-        // Calculo el indice i de la imagen en la que nos encontramos.
-        int i = it - morphing.imagenes.begin();
+        for(int k = 0; k < (img.get_rows() * img.get_cols()); k++){
 
-        // Si estamos en la primera imagen, la primera imagen del video será I1.
-        if(it == morphing.imagenes.begin()){
-            morphing.insertar(i, I1);
-            cout << "primera imagen ok" << endl;
-        }
-        
-        // Si estamos en la última imagen, la última imagen del video será I2.
-        else if(it == morphing.imagenes.end() - 1){
-            morphing.insertar(i, I2);
-            cout << "ultima imagen ok" << endl;
-        }
+            int v_i1 = static_cast<int>(I1.get_pixel(k));
+            int v_i2 = static_cast<int>(I2.get_pixel(k));
 
-        // Entonces estamos en una imagen del centro.
-        else{
-
-            // Creo la imagen que ira en la posicion i del vector.
-            Image img(I1.get_rows(), I1.get_cols(), 0); 
-            // Voy iterando sobre los píxeles de la imagen.
-            // No puedo hacerlo de otra forma que no sea la de utilizar un for de la forma mas basica,
-            // ya que no puedo calcular por el numero de pixel por el que voy al igual que he hecho mas
-            // arriba con el indice 'i', ya que la clase Iterator de la clase Image no trae implementado el
-            // operador '-' para poder calcular la distancia entre el iterador y el principio de la imagen.
-
-            for(int k = 0; k < (img.get_rows() * img.get_cols()); k++){
-
-                int v_i1 = static_cast<int>(I1.get_pixel(k));
-                int v_i2 = static_cast<int>(I2.get_pixel(k));
-
-                int valor_pixel = v_i1 * ((1-i)/nf) + (v_i2*i)/nf;
-
+                int valor_pixel = v_i1 * (1-i/nf) + (v_i2*i)/nf;      // Formula para hacer morphing.
+                    
                 img.set_pixel(k, valor_pixel);
-            }
-
+        }
             // Añado la imagen al video.
-            morphing.insertar(i, img);
-            cout << i << " imagen ok" << endl;
-
-            // Actualizo el iterador del video
-            ++it;   
-        }     
+            morphing.insertar(i, img);    
     }
 
-    cout << "morphing ok" << endl;
+    cout << "El morphing se ha realizado correctamente." << endl;
     return morphing;
 }
+
+// // Si estamos en la primera imagen, la primera imagen del video será I1.
+// if(i == 0)
+//     morphing.insertar(i, I1);
+     
+// // Si estamos en la última imagen, la última imagen del video será I2.
+// else if(i == nf-1)
+//     morphing.insertar(i, I2);

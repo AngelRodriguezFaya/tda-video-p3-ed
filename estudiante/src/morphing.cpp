@@ -48,12 +48,7 @@ int main (int argc, char ** argv) {
 
   morphing = video.Morphing(origen, destino, nf);
 
-  if(morphing.EscribirVideo(path, "morphing")){
-    cout << "Escritura del video en disco realizada con éxito." << endl;
-  }else{
-    cerr << "Error al escribir el video en disco." << endl;
-    exit(1);
-  }
+  morphing.EscribirVideo(path, "morphing");
 
   return 0;
 }
