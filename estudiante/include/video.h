@@ -121,7 +121,7 @@ class Video{
 
     bool EscribirVideo(const string & path, const string &prefijo)const;
 
-    Video Rebobinar(const Video &v);
+    static Video Rebobinar(const Video &v);
 
     /**
      * @brief Realiza el morphing entre dos imagenes.
@@ -135,6 +135,22 @@ class Video{
      * @return Video con el morphing entre las dos imagenes.     * 
      */
     Video Morphing(const Image &I1, const Image &I2, int nf);
+
+    vector<Image>::iterator begin();
+
+    vector<Image>::const_iterator begin() const;
+
+    vector<Image>::iterator end();
+
+    vector<Image>::const_iterator end() const;
+
+    vector<Image>::reverse_iterator rbegin();
+
+    vector<Image>::const_reverse_iterator rbegin() const;
+
+    vector<Image>::reverse_iterator rend();
+
+    vector<Image>::const_reverse_iterator rend() const;
 
 };
 

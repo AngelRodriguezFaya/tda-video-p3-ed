@@ -99,6 +99,8 @@ bool Video::LeerVideo(const string & path){
                 if (resultado){     
                     imagenes.push_back(img);
                     cout << "Imagen leida: " << it.path().filename() << endl;
+                    // cout << "Pulse una tecla para continuar..." << endl;
+                    // cin.get();
                 }
                 
                 // Si nos se ha podido leer la imagen, mostramos un mensaje de error.
@@ -163,6 +165,17 @@ bool Video::EscribirVideo(const string & path, const string &prefijo)const{
 }
 
 Video Video::Rebobinar(const Video &v){
+    assert(v.size() > 0);
+
+    Video rebobinado(v.size());
+    int i = 0;
+
+    for (vector<Image>::const_reverse_iterator rit = v.rbegin(); rit != v.rend(); ++rit){
+        rebobinado.insertar(i, *rit);
+        i++;
+    }
+
+    return rebobinado;
 }
 
 Video Video::Morphing(const Image &I1, const Image &I2, int nf){
@@ -204,10 +217,35 @@ Video Video::Morphing(const Image &I1, const Image &I2, int nf){
     return morphing;
 }
 
-// // Si estamos en la primera imagen, la primera imagen del video será I1.
-// if(i == 0)
-//     morphing.insertar(i, I1);
-     
-// // Si estamos en la última imagen, la última imagen del video será I2.
-// else if(i == nf-1)
-//     morphing.insertar(i, I2);
+
+vector<Image>::iterator Video::begin(){
+    return(imagenes.begin());
+}
+
+vector<Image>::const_iterator Video::begin() const{
+    return(imagenes.begin());
+}
+
+vector<Image>::iterator Video::end(){
+    return(imagenes.end());
+}
+
+vector<Image>::const_iterator Video::end() const{
+    return(imagenes.end());
+}
+
+vector<Image>::reverse_iterator Video::rbegin(){
+    return(imagenes.rbegin());
+}
+
+vector<Image>::const_reverse_iterator Video::rbegin() const{
+    return(imagenes.rbegin());
+}
+
+vector<Image>::reverse_iterator Video::rend(){
+    return(imagenes.rend());
+}
+
+vector<Image>::const_reverse_iterator Video::rend() const{
+    return(imagenes.rend());
+}

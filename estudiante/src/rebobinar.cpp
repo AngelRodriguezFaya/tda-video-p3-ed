@@ -1,3 +1,15 @@
+/**
+ * @file rebobinar.cpp
+ * @brief Fichero que rebobina un video.
+ *
+ * @authors Gabriel Josué Marcano Grimán
+ *          Ángel Rodíguez Faya
+ *
+ * @date Octubre 2024
+ *
+ * Implementación de la funcion Rebobinar perteneciente al TDA Video.
+ */
+
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -11,14 +23,17 @@ int main (int argc, char ** argv) {
 
     Video origen, destino;
 
-    if (argc != 5){
+    if (argc != 3){
         cerr << endl << "Error: Número de parámetros incorrecto. " << endl;
         cerr << "Uso: " << argv[0] << " <RutaVideo> <Prefijo> <NumImages> <Dest>" << endl << endl;
         exit (1);
     }
 
-    // TODO: Aplicar el codigo necesario para rebobinar el video origen y almacenar las imagenes en destino
-    // para ello es necesario definir las funciones que leen y escriben un videdo como una secuencia de imagenes en una ruta dada
+    origen.LeerVideo(argv[1]);
+
+    // destino = Video::Rebobinar(origen);
+
+    origen.EscribirVideo(argv[2], "rebobinar");
 }
 
 
