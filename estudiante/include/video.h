@@ -118,51 +118,6 @@ class Video{
     void borrar(int k);
 
     /**
-     * @brief Lee un video de un directorio.
-     * Lee los frames de un video almacenados en el directorio especificado y los guarda en el vector imagenes.
-     *
-     * @param path Ruta del directorio donde se encuentran los frames del video.
-     * @pre path debe ser un directorio valido y que contenga imagenes ".pgm".
-     * @return true si la lectura del video ha tenido exito, false si no.
-     */
-    bool LeerVideo(const string & path);
-
-
-    /**
-     * @brief Escribe los frames del video en un directorio.
-     * Toma los elementos del vector imagenes del video y los almacena en el directorio especificado.
-     *
-     * @param path Ruta del directorio donde se quiere guardar los frames.
-     * @param prefijo Prefijo que tendran las imagenes que se guardaran.
-     * @pre el video no puede estar vacio, es decir, size() > 0.
-     * @return true si la escritura ha tenido exito, false si no.
-     */
-    bool EscribirVideo(const string & path, const string &prefijo)const;
-
-    /**
-     * @brief Rebobina un video.
-     * Sobrescribe el contenido del video sobre el que se llama el metodo con los frames de v en orden inverso.
-     *
-     * @param v Video que se quiere rebobinar.
-     * @pre v debe tener al menos 2 frames.
-     * @return Video con los frames de v en orden inverso.
-     */
-    Video Rebobinar(const Video &v);
-
-    /**
-     * @brief Realiza el morphing entre dos imagenes.
-     * Realiza una transicion entre dos imagenes, creando una ilusion de transformacion.
-     * 
-     * @param I1 Imagen inicial de la que se parte.
-     * @param I2 Imagen final.
-     * @param nf Numero de pasos para realizar la transformacion.
-     * @pre I1 y I2 deben tener el mismo tamaño, es decir, el mismo numero de filas y columnas.
-     * @pre nf > 0, el numero de pasos no puede ser 0.
-     * @return Video con el morphing entre las dos imagenes.     
-     */
-    Video Morphing(const Image &I1, const Image &I2, int nf);
-
-    /**
      * @brief Devuelve un iterador que apunta al principio del vector imagenes.
      * @return Iterador que apunta al primer elemento del vector imagenes.
      */
@@ -197,6 +152,56 @@ class Video{
      * @return Iterador inverso constante que apunta al elemento siguiente al ultimo del vector imagenes invertido.
      */
     vector<Image>::const_reverse_iterator rend() const;
+
+    /**
+     * @brief Lee un video de un directorio.
+     * Lee los frames de un video almacenados en el directorio especificado y los guarda en el vector imagenes.
+     *
+     * @param path Ruta del directorio donde se encuentran los frames del video.
+     * @pre path debe ser un directorio valido y que contenga imagenes ".pgm".
+     * @return true si la lectura del video ha tenido exito, false si no.
+     * @post el video que llama al metodo tiene los fotogramas leidos del directorio especificado.
+     */
+    bool LeerVideo(const string & path);
+    
+    /**
+     * @brief Escribe los frames del video en un directorio.
+     * Toma los elementos del vector imagenes del video y los almacena en el directorio especificado.
+     *
+     * @param path Ruta del directorio donde se quiere guardar los frames.
+     * @param prefijo Prefijo que tendran las imagenes que se guardaran.
+     * @pre el video no puede estar vacio, es decir, size() > 0.
+     * @return true si la escritura ha tenido exito, false si no.
+     * @post los frames del video que llama al metodo han sido escritos en el directorio especificado.
+     */
+    bool EscribirVideo(const string & path, const string &prefijo)const;
+
+    /**
+     * @brief Rebobina un video.
+     * Sobrescribe el contenido del video sobre el que se llama el metodo con los frames de v en orden inverso.
+     *
+     * @param v Video que se quiere rebobinar.
+     * @pre v debe tener al menos 2 frames.
+     * @return Video con los frames de v en orden inverso.
+     * @post el video que llama al metodo tiene los frames de v en orden inverso.
+     */
+    Video Rebobinar(const Video &v);
+
+    /**
+     * @brief Realiza el morphing entre dos imagenes.
+     * Crea un nuevo video cuyos fotogrmas son los generados al realizar una transicion entre 
+     * dos imagenes, creando una ilusion de transformacion.
+     * 
+     * @param I1 Imagen inicial de la que se parte.
+     * @param I2 Imagen final a la que se quiere llegar.
+     * @param nf Numero de pasos para realizar la transformacion.
+     * @pre I1 y I2 deben tener el mismo tamaño, es decir, el mismo numero de filas y columnas.
+     * @pre nf > 0, el numero de pasos no puede ser 0.
+     * @return Video con el morphing entre las dos imagenes. 
+     * @post el video que llama al metodo contiene los frames generados al realizar el morphing.    
+     */
+    Video Morphing(const Image &I1, const Image &I2, int nf);
+
 };
 
 #endif // VIDEO__H

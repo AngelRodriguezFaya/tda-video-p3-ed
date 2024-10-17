@@ -21,12 +21,12 @@ using namespace std;
 int main (int argc, char ** argv) {
 
   Image origen, destino;
-  Video morphing, video;
+  Video morphing;
   
   // Comprobamos que el número de parámetros sea correcto
   if (argc != 5){
     cerr << endl << "Error: Número de parámetros incorrecto. " << endl;
-    cerr << "Uso: " << argv[0] << " <Imagen_1> <Imagen_2> <Directorio_de_salida> <nf>" << endl << endl;
+    cerr << "Uso: " << argv[0] << " <FichImagenOriginal> <FichImagenDestin> <DirectorioSalida> <nf>" << endl << endl;
     exit (1);
   }
 
@@ -46,7 +46,7 @@ int main (int argc, char ** argv) {
   // Leemos el número de pasos para realizar el morphing.
   int nf = atoi(argv[4]);
 
-  morphing = video.Morphing(origen, destino, nf);
+  morphing.Morphing(origen, destino, nf);
 
   morphing.EscribirVideo(path, "morphing");
 

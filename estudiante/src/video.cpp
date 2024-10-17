@@ -21,6 +21,10 @@
 
 namespace fs = std::filesystem;
 
+/********************************
+        Constructores
+*********************************/
+
 Video::Video(){
 
     imagenes.reserve(1);
@@ -47,6 +51,10 @@ Video::~Video(){
     imagenes.clear();
 
 }
+
+/***************************************************
+   Funciones atómicas de la clase Video.
+****************************************************/
 
 int Video::size() const{
 
@@ -80,6 +88,10 @@ void Video::borrar(int k){
 
 }
 
+
+/***************************************************
+    Metodos de los Iteradores de la clase Video.
+****************************************************/
 vector<Image>::iterator Video::begin(){
     return(imagenes.begin());
 }
@@ -104,6 +116,9 @@ vector<Image>::const_reverse_iterator Video::rend() const{
     return(imagenes.rend());
 }
 
+/***************************************************
+    Metodos de la clase Video.
+****************************************************/
 
 bool Video::LeerVideo(const string & path){
 
@@ -123,11 +138,8 @@ bool Video::LeerVideo(const string & path){
                 bool resultado = img.Load(it.path().c_str());
                 
                 // Si se ha podido leer la imagen, la añadimos al VECTOR AUXILIAR.
-                if (resultado){     
-                    // auxiliar.push_back(img);
-                    cout << "Imagen leida: " << it.path() << endl;
+                if (resultado)
                     nombresImagenes.push_back(it.path().filename());
-                }
                 
                 // Si nos se ha podido leer la imagen, mostramos un mensaje de error.
                 else{
@@ -146,19 +158,22 @@ bool Video::LeerVideo(const string & path){
         return false;
     }
 
+    // Ahora que hemos leido todas las imágenes, las ordenamos y las añadimos al vector imagenes
+    
     // Ordenamos las imágenes en el vector auxiliar.
     sort(nombresImagenes.begin(), nombresImagenes.end());
-    cout << "Imagenes ordenadas." << endl;
+    cout << "---Imagenes ordenadas.---" << endl;
     
     for(int i = 0; i < nombresImagenes.size(); i++){
         Image img;
         
         bool resultado = img.Load((path + nombresImagenes[i]).c_str());
         if (resultado){     
-            cout << "Imagen leida de nuevo: " << nombresImagenes[i] << endl;
-            imagenes.push_back(img);
+            this->insertar(i, img);   // Llamo a la función insertar de la clase Video para añadir la imagen al video.
         }
     }
+
+    cout << "---Imagenes añadidas al video.---" << endl;
 
     // Llegados a este punto, la lectura del video se ha realizado con éxito.
     cout << "El video se ha leido con éxito." << endl;
@@ -170,7 +185,7 @@ bool Video::EscribirVideo(const string & path, const string &prefijo)const{
     fs::path ruta = path;
 
     // Compruebo que el video no esta vacio.
-    if((*this).size() > 0){
+    if(this->size() > 0){
 
         //Compruebo que el path existe y es un directorio.
         if(fs::exists(ruta) && fs::is_directory(ruta)){
@@ -195,7 +210,7 @@ bool Video::EscribirVideo(const string & path, const string &prefijo)const{
     } 
     
     else{
-        cout << "El video no tiene fotogramas." << endl;
+        cout << "El video esta vacio, no tiene fotogramas." << endl;
         cout << "Se finaliza la escritura del video." << endl;
         return false;
     }
@@ -206,10 +221,11 @@ bool Video::EscribirVideo(const string & path, const string &prefijo)const{
 
 Video Video::Rebobinar(const Video &v){
 
+    // Comprobamos que el video de origen v no esta vacio.
     assert(v.size() > 1);
 
-    imagenes.clear();
-    imagenes.reserve(v.size());
+    imagenes.clear();               // Borramos las imagenes de este video (*this).
+    imagenes.reserve(v.size());     // Reservamos tanto espacio en este video como imagenes tiene el video de origen.
     int i = 0;
 
     for (vector<Image>::const_reverse_iterator rit = v.rbegin(); rit != v.rend(); ++rit){
@@ -217,7 +233,7 @@ Video Video::Rebobinar(const Video &v){
         i++;
     }
     
-    return *this;
+    return *this; // Devolvemos el video con las imagenes en orden inverso.
 }
 
 Video Video::Morphing(const Image &I1, const Image &I2, int nf){
@@ -229,8 +245,9 @@ Video Video::Morphing(const Image &I1, const Image &I2, int nf){
     cout << "Los parametros introducidos son correctos." << endl;
     cout << "Se procede a realizar el morphing. Espere un momento..." << endl;
 
-    //Creamos un video con nf fotogramas.
-    Video morphing(nf);
+    //Preparamos este video (el que llama al metodp) que contendra las imagenes del morphing.
+    imagenes.clear();           // Borramos las imagenes de este video.
+    imagenes.reserve(nf);       // Reservamos espacio para nf imagenes.
 
     for (double i = 0; i < nf; i++){  // Indice i de la imagen en la que nos encontramos.
 
@@ -252,11 +269,11 @@ Video Video::Morphing(const Image &I1, const Image &I2, int nf){
         }
 
             // Añado la imagen al video.
-            morphing.insertar(i, img);    
+            this->insertar(i, img);    
     }
 
     cout << "El morphing se ha realizado correctamente." << endl;
-    return morphing;
+    return *this;
 }
 
 
