@@ -18,7 +18,6 @@
 
 using namespace std;
 
-
 int main (int argc, char ** argv) {
 
     Video origen, destino;
@@ -31,9 +30,10 @@ int main (int argc, char ** argv) {
 
     origen.LeerVideo(argv[1]);
 
-    // destino = Video::Rebobinar(origen);
+    destino.Rebobinar(origen);
 
-    origen.EscribirVideo(argv[2], "rebobinar");
+    destino.EscribirVideo(argv[2], "rebobinar");
 }
+
 
 

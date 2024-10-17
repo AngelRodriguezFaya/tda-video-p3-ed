@@ -17,6 +17,7 @@
 #include <image.h>
 #include "video.h"
 #include <filesystem> // Para leer el path
+#include <algorithm>  // Para sort.
 
 namespace fs = std::filesystem;
 
@@ -79,9 +80,36 @@ void Video::borrar(int k){
 
 }
 
+vector<Image>::iterator Video::begin(){
+    return(imagenes.begin());
+}
+
+vector<Image>::const_iterator Video::begin() const{
+    return(imagenes.begin());
+}
+
+vector<Image>::iterator Video::end(){
+    return(imagenes.end());
+}
+
+vector<Image>::const_iterator Video::end() const{
+    return(imagenes.end());
+}
+
+vector<Image>::const_reverse_iterator Video::rbegin() const{
+    return(imagenes.rbegin());
+}
+
+vector<Image>::const_reverse_iterator Video::rend() const{
+    return(imagenes.rend());
+}
+
+
 bool Video::LeerVideo(const string & path){
 
     fs::path ruta = path;  // Ruta del directorio donde se encuentran las imágenes.
+
+    vector<string> nombresImagenes;  // Vector auxiliar para almacenar las imágenes.
 
     // Verificamos que el path sea un directorio.
     if (fs::exists(ruta) && fs::is_directory(ruta)){        
@@ -90,17 +118,15 @@ bool Video::LeerVideo(const string & path){
         for (const auto &it : fs::directory_iterator(ruta)){
             
             // Verificamos que el archivo sea una imagen PGM.
-            string extension = it.path().extension();
-            if (extension == ".pgm"){
+            if (it.path().extension() == ".pgm"){
                 Image img;
                 bool resultado = img.Load(it.path().c_str());
                 
-                // Si se ha podido leer la imagen, la añadimos al video.
+                // Si se ha podido leer la imagen, la añadimos al VECTOR AUXILIAR.
                 if (resultado){     
-                    imagenes.push_back(img);
-                    cout << "Imagen leida: " << it.path().filename() << endl;
-                    // cout << "Pulse una tecla para continuar..." << endl;
-                    // cin.get();
+                    // auxiliar.push_back(img);
+                    cout << "Imagen leida: " << it.path() << endl;
+                    nombresImagenes.push_back(it.path().filename());
                 }
                 
                 // Si nos se ha podido leer la imagen, mostramos un mensaje de error.
@@ -118,6 +144,20 @@ bool Video::LeerVideo(const string & path){
         cout << "Error: " << path << " no es un directorio valido para leer el video." << endl;
         cout << "Se finaliza la lectura del video." << endl;
         return false;
+    }
+
+    // Ordenamos las imágenes en el vector auxiliar.
+    sort(nombresImagenes.begin(), nombresImagenes.end());
+    cout << "Imagenes ordenadas." << endl;
+    
+    for(int i = 0; i < nombresImagenes.size(); i++){
+        Image img;
+        
+        bool resultado = img.Load((path + nombresImagenes[i]).c_str());
+        if (resultado){     
+            cout << "Imagen leida de nuevo: " << nombresImagenes[i] << endl;
+            imagenes.push_back(img);
+        }
     }
 
     // Llegados a este punto, la lectura del video se ha realizado con éxito.
@@ -165,17 +205,19 @@ bool Video::EscribirVideo(const string & path, const string &prefijo)const{
 }
 
 Video Video::Rebobinar(const Video &v){
-    assert(v.size() > 0);
 
-    Video rebobinado(v.size());
+    assert(v.size() > 1);
+
+    imagenes.clear();
+    imagenes.reserve(v.size());
     int i = 0;
 
     for (vector<Image>::const_reverse_iterator rit = v.rbegin(); rit != v.rend(); ++rit){
-        rebobinado.insertar(i, *rit);
+        insertar(i, *rit);
         i++;
     }
-
-    return rebobinado;
+    
+    return *this;
 }
 
 Video Video::Morphing(const Image &I1, const Image &I2, int nf){
@@ -218,34 +260,3 @@ Video Video::Morphing(const Image &I1, const Image &I2, int nf){
 }
 
 
-vector<Image>::iterator Video::begin(){
-    return(imagenes.begin());
-}
-
-vector<Image>::const_iterator Video::begin() const{
-    return(imagenes.begin());
-}
-
-vector<Image>::iterator Video::end(){
-    return(imagenes.end());
-}
-
-vector<Image>::const_iterator Video::end() const{
-    return(imagenes.end());
-}
-
-vector<Image>::reverse_iterator Video::rbegin(){
-    return(imagenes.rbegin());
-}
-
-vector<Image>::const_reverse_iterator Video::rbegin() const{
-    return(imagenes.rbegin());
-}
-
-vector<Image>::reverse_iterator Video::rend(){
-    return(imagenes.rend());
-}
-
-vector<Image>::const_reverse_iterator Video::rend() const{
-    return(imagenes.rend());
-}
