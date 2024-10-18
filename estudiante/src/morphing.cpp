@@ -8,7 +8,13 @@
  * @date Octubre 2024
  *
  * Implementación de la funcion Morphing perteneciente al TDA Video.
+ *
+ * Ejemplo de uso:
+ * ~$ cmake CMakeLists.txt
+ * ~$ make
+ * ~$ ./morphing estudiante/datos/imagenes/chiguagua.pgm estudiante/datos/imagenes/broncano.pgm estudiante/datos/morphing/ 30
  */
+
 #include <cstdlib> 
 #include <iostream> 
 

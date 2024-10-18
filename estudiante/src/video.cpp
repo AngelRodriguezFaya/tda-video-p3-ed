@@ -135,9 +135,9 @@ bool Video::LeerVideo(const string & path){
             // Verificamos que el archivo sea una imagen PGM.
             if (it.path().extension() == ".pgm"){
                 Image img;
-                bool resultado = img.Load(it.path().c_str());
+                bool resultado = img.Load(it.path().c_str());   // c_str() hace una conversión para devolver un puntero a char.
                 
-                // Si se ha podido leer la imagen, la añadimos al VECTOR AUXILIAR.
+                // Si se ha podido leer la imagen, la añadimos al vector de imagenes.
                 if (resultado)
                     nombresImagenes.push_back(it.path().filename());
                 
@@ -245,7 +245,7 @@ Video Video::Morphing(const Image &I1, const Image &I2, int nf){
     cout << "Los parametros introducidos son correctos." << endl;
     cout << "Se procede a realizar el morphing. Espere un momento..." << endl;
 
-    //Preparamos este video (el que llama al metodp) que contendra las imagenes del morphing.
+    //Preparamos este video (el que llama al metodo) que contendra las imagenes del morphing.
     imagenes.clear();           // Borramos las imagenes de este video.
     imagenes.reserve(nf);       // Reservamos espacio para nf imagenes.
 

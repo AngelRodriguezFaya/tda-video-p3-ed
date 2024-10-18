@@ -8,6 +8,11 @@
  * @date Octubre 2024
  *
  * Implementación de la funcion Rebobinar perteneciente al TDA Video.
+ *
+ * Ejemplo de uso:
+ * ~$ cmake CMakeLists.txt
+ * ~$ make
+ * ~$ ./rebobinar estudiante/datos/imagenes/f1_panas estudiante/datos/rebobinado
  */
 
 #include <cstdlib>
@@ -24,7 +29,7 @@ int main (int argc, char ** argv) {
 
     if (argc != 3){
         cerr << endl << "Error: Número de parámetros incorrecto. " << endl;
-        cerr << "Uso: " << argv[0] << " <RutaVideo> <Prefijo> <NumImages> <Dest>" << endl << endl;
+        cerr << "Uso: " << argv[0] << " <DirectorioEntrada> <DirectorioSalida>" << endl << endl;
         exit (1);
     }
 
