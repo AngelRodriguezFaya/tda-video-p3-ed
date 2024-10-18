@@ -2,37 +2,76 @@
 
 @image html portada.png "Portada de la práctica 3. Créditos a Max Verstappen, Lewis Hamilton, el chiguagua y David Broncano "
 
+### Autores:
+#### Ángel Rodríguez Faya   arf04@correo.ugr.es
+#### Gabriel Josué Marcano Grimán   gabrielmarcano@correo.ugr.es
+
+### Fecha de entrega:
+#### 18 de octubre de 2024
+
+### Estructura de Datos. Ingeniería Informática. Universidad de Granada.
+
+
+
 # Índice
-1. [Introducción](#introducción)
-2. [Clase Video](#clase-video)
+#### 1. INTRODUCCIÓN.
+#### 2. CLAVES A TENER EN CUENTA. ¡MUY IMPORTANTE!
+    - 2.1. Se ha cambiado la opción de compilación de C++14 a C++17, y renombrado el tipo de dato byte a pixel en la clase Image.
+    - 2.2. Hay 3 vídeos donde explicamos como compilar y ejecutar correctamente nuestro proyecto.
+    - 2.3. Se tienen que ejecutar el rebobinado y morphing con nuestras imágenes, disponibles en estudiante/datos/imagenes.
+#### 3. CLASE VIDEO.
+    - 3.1. Constructores.
+    - 3.2. Funciones atómicas o fundamentales.
+    - 3.3. Métodos iteradores de la clase Video.
+    - 3.4. Métodos de la clase Video.
+#### 4. EJERCICIOS.
+    - 4.1. Rebobinar.
+    - 4.2. Morphing.
 
+# 1. INTRODUCCIÓN.
 
-# Información sobre Doxygen
-Doxygen admite el uso de la [sintaxis de Markdown (Consulta aquí los comandos básicos)](https://www.markdownguide.org/basic-syntax).
+En esta práctica se nos pide implementar una estructura formada por imágenes digitales de niveles de gris. Dicha estructura es un video, que no es
+más que un conjunto de imágenes(o fotogramas) que se van sucediendo en el tiempo. Para ello, utilizaremos un tipo de dato abstracto, el TDA Video,
+que contiene un vector de imágenes, donde cada imagen es un objeto de la clase Image. Además, hemos implementado una serie de funciones como son
+que nos permitan realizar operaciones sobre el video, dichas funciones son: funciones atómicas que van a trabajar con la estructura interna del video
+y sobre la que se apoyan el resto de funciones, funciones iteradores para iterar sobre los elementos que forman el video (los fotogramas), dos funciones
+de I/O del video (LeerVideo y EscribirVideo), y por último dos métodos o funciones que son las que le dan utilidad a nuestro video, son el rebobinado
+y el morphing, que me van a permitir modificar un video obteniendo otro distinto, bien sea rebobinado o transformado.
 
-Así como el uso de  <a href="https://htmlcheatsheet.com/">sintaxis <strong>HTML</strong></a>. Esto es especialmente útil
-para aquellos aspectos que Markdown no permite modificar, como el <span  style="color:red">color</span>. Aunque es buena idea evitarlo en la medida de lo posible, por dos
-motivos:
+Es una práctica muy interesante y en la que hemos aprendido mucho, ya que hemos tenido que trabajar con cosas que hasta ahora no habíamos visto, como
+puede ser el uso y significado de la abstracción, el contenedor que hemos utilizado para esta práctica (es un objeteo de la clase <vector> de la STL),
+el uso de la librería filesystem, que nos ha permitido trabajar con el sistema de archivos de C++, y hemos tenido que trabajar con iteradores.
 
-1. <span style="font-size:1.1em">Hace el código <strong>poco</strong> <span style="  background-image: linear-gradient(to left, #4285f4, #34a853, #fbbc05, #ea4335); -webkit-background-clip: text; color: transparent;"> <strong> LEGIBLE </strong> </span></span>
-2. La idea detrás de Markdown es separar _aspecto_ y _contenido_. Y es una __gran idea__.
+A pesar del gran tiempo y esfuerzo que hemos dedicado a esta práctica, estamos muy contentos con el resultado obtenido, ya que hemos conseguido implementar
+y por supuesto aprender el uso de la abstracción, que son los contenedores de datos y como  se utilizan, trabajar con librerias nuevas, etc.
 
+# 2. CLAVES A TENER EN CUENTA ¡MUY IMPORTANTE!
+El objetivo de este apartado es **dejar constancia de los cambios hechos en nuestro proyecto sobre cosas que no se podían tocar o cambiar pero que hemos tenido
+que hacerlo para que funcionase, así como comentar algún aspecto clave a tener en cuenta para la revisión realizada por el profesor.**
 
-Idealmente el aspecto debería resolverse mediante un documento ``.css`` configurado en el archivo ``Doxyfile.in``.
-Si te interesa, puedes echarle un vistazo a la [documentación](https://www.doxygen.nl/manual/customize.html) o a
-temas customizados como [este](https://jothepro.github.io/doxygen-awesome-css/). Aunque el tema por defecto nos parece
-perfecto, _CLÁSICO_. Así puedes centrarte en el contenido.
+## 2.1. Se ha cambiado la opción de compilación de C++14 a C++17, y renombrado el tipo de dato byte a pixel en la clase Image.
+En el CMakelists.txt de nuestro proyecto, hemos tenido que cambiar la opción de compilación de C++14 a C++17, ya que hemos tenido que hacer uso de la librería
+filesystem, que está disponible a partir de la versión C++17. **Es importante remarcar y dejar constancia de que si se compila nuestro proyecto con una versión
+de compilador inferior a C++17, no se va a compilar correctamente y no va a funcionar como debe.** Al realizar este cambio de versión de compilador, hemos tenido
+que renombrar el tipo de dato byte a pixel en la clase Image, ya que byte es un tipo de dato que se ha introducido a partir de la versión C++17, y si no se hace
+este cambio el compilador nos da error ya que es una definición ambigua, debido a que no sabe si hace referencia al byte de la clase Image o al nuevo tipo byte.
+Haciendo este cambio, se solucionará el problema.
 
-Por último, lo hemos visto en clase y hay suficientes ejemplos en el código fuente proporcionado, pero puedes consultar la
-mayor parte de la sintaxis de Doxygen para comentar código en su
-[documentación](https://www.doxygen.nl/manual/docblocks.html).
+## 2.2. Hay 3 vídeos donde explicamos como compilar y ejecutar correctamente nuestro proyecto.
+En el directorio **estudiante/doc** de nuestro proyecto, se encuentran 3 vídeos en los que explicamos como compilar y ejecutar correctamente nuestro proyecto, en
+los que mostramos como funciona el rebobinado, el morphing y como abrir la documentación generada por Doxygen. **Es importante que se vean estos vídeos, ya que
+se muestra tal y como nos funciona a nosotros, y si se siguen los pasos que se indican en los vídeos, no debería de haber ningún problema.**. Los videos son:
+- **01_ejemplo_rebobinado.mp4**.
+- **02_ejemplo_morphing.mp4**.
+- **03_ejemplo_doxygen_mainpage.mp4**.
 
-# Introducción
+## 2.3. Se tienen que ejecutar el rebobinado y morphing con nuestras imágenes, disponibles en estudiante/datos/imagenes.
+Debido a que nuestro proyecto no puede ocupar más de 50MB, hemos tenido que reducir el tamaño del mismo borrando lo que era innecesario o menos relevante, como
+era el caso de los fotogramas football o missa, ya que no los utilizábamos para nuestro proyecto. Nos hemos tomado las molestias de extraer, modificar y convertir a
+formato .pgm nuestras propias imágenes, con el fin de dar un enfoque diferente a nuestra práctica. Dichas imágenes se ncuentran en el directorio
+**estudiante/datos/imagenes**.
 
-A RELLENAR POR EL ESTUDIANTE
-
-
-# Clase Video
+# 3. CLASE VIDEO.
 
 En este apartado se pretende describir como hemos abordado la implementación de la clase Video. Dicha implementación la encontramos en el archivo
 video.cpp de nuestro proyecto, ubicado en la siguiente ruta: estudiante/src/video.cpp
@@ -47,7 +86,7 @@ barra superior en Clases, y una vez dentro en Video o T.D.A Video.
 
 Dicho esto, comenzamos con la descripción.
 
-##CONSTRUCTORES.
+## 3.1. CONSTRUCTORES.
 
 - **Video::Video()**
 Es el constructor por defecto de la clase Video. En este constructor reservamos espacio para una imagen, es decir, capacity = 1 y size = 0.
@@ -64,7 +103,7 @@ que recibe el constructor como parámetro. Entonces el vector tendrá una capaci
 Es el destructor de la clase Video. En este destructor liberamos la memoria que hemos reservado para el vector de imágenes de la clase Video.
 Para ello utilizamos la función clear() de la clase vector de la STL.
 
-## FUNCIONES ATÓMICAS O FUNDAMENTALES.
+## 3.2. FUNCIONES ATÓMICAS O FUNDAMENTALES.
 ###Una vez descritos los constructores de la clase Video, pasamos a describir las funciones atómicas o fundamentales de la clase Video.
 ###Estas funciones son las únicas que deben de tocar la estructura interna de la clase, el resto de métodos de la clase no deberían de hacerlo.
 
@@ -79,7 +118,6 @@ foto dentro del vector de imágenes del video.
 Accede de forma constante al fotograma especificado por su índice. Este metodo devuelve una referencia constante al objeto Image en la posición indicada
 por el parámetro foto dentro del vector de imágenes del video. Al ser un metodo constante, asegura que el contenido no será modificado.
 
-
 - **void Video::insertar(int k, const Image &i)**
 Insertar una imagen en la posición k del video. Para que sea posible esto, se crea un iterator del tipo vector<Image>, ya que nuestro vector **imagenes**
 de nuestra clase video no es más que un vector<Image> siendo vector un objeto de la clase vector de la STL. Este iterator se inicializa como la la posición
@@ -91,7 +129,7 @@ Borrar la imagen en la posición k del video. La misma forma que utilizábamos p
 Creamos nuestro iterador y lo llevamos a la posición k del vector, y una vez ahí, llamamos a la función erase() de la clase vector de la STL, pasándole como
 parámetro el iterador.
 
-## MÉTODOS ITERADORES DE LA CLASE VIDEO.
+## 3.3. MÉTODOS ITERADORES DE LA CLASE VIDEO.
 
 - **vector<Image>::iterator Video::begin()**
 Devuelve un iterador al primer fotograma del video. Este metodo se basa en el vector de objetos Image que contiene los fotogramas, retornando un iterador que
@@ -120,7 +158,7 @@ Devuelve un iterador constante inverso que apunta al último fotograma del video
 retornando un iterador constante que comienza desde el último elemento del vector mediante una llamada al metodo rbegin(). Al ser un metodo constante, asegura
 que los datos no serán modificados.
 
-## MÉTODOS DE LA CLASE VIDEO.
+## 3.4. MÉTODOS DE LA CLASE VIDEO.
 
 ### Hasta aquí ya tenemos los constructores, funciones atómicas y los métodos iteradores de la clase Video. A continuación vamos a describir los métodos
 ### que son los que realmente le dan funcionalidades a la clase Video, como leerlos y escribirlos  ó hacer un rebobinado o un morphing.
@@ -388,31 +426,51 @@ que los datos no serán modificados.
     }
     ```
 
-## Implementacion
 
+# 4. EJERCICIOS.
 
-# Ejecutables
-
-## Rebobinar:
+## 4.1 Rebobinar:
 
 @image html rebobinar.png
 
 Esta función rebobina un vídeo. Para ello crea un video con los fotogramas del video original en orden inverso.
 
-> __rebobinar__ \<FichImagenOriginal\> \<FichImagenDestino\>
-@param "<FichImagenOriginal>" Imagen PGM a la que se va a calcular
-@param <FichImagenDestino> Imagen PGM resultado de calcular el negativo
+#####Para ejecutarlo nos situamos en la carpeta raíz del proyecto y ejecutamos en la terminal el siguiente comando, pasándole los argumentos que le correspondan:
 
-## Morphing:
+> ./rebobinar \<DirectorioEntrada\> \<DirectorioSalida\>
+
+@param "<DirectorioEntrada>" Es el directorio donde se encuentran los fotogramas del video original.
+@param "<DirectorioSalida>"  Es el directorio donde se guardarán los fotogramas del video rebobinado.
+
+Ejemplo de ejecución:
+
+> ./rebobinar estudiante/datos/imagenes/f1_panas estudiante/datos/rebobinado
+
+Tras ejecutar el comando anterior, se creará un video con los fotogramas del video original en orden inverso, y el video rebobinado
+se guardará en el directorio **estudiante/datos/rebobinado**.
+
+## 4.2. Morphing:
 
 @image html ejemplo_morphing.png
 
 Crea un video donde sus fotogramas son una transición entre imágenes, creando una ilusión de transformación.
 
-> __morphing__ \<FichImagenOriginal\> \<FichImagenDestino\> \<DirectorioSalida\> \<nf\>
+#####Para ejecutarlo nos situamos en la carpeta raíz del proyecto y ejecutamos en la terminal el siguiente comando, pasándole los argumentos que le correspondan:
+
+> ./morphing \<FichImagenOriginal\> \<FichImagenDestino\> \<DirectorioSalida\> \<nf\>
+
 @param "<FichImagenOriginal>" Fichero que contiene la Imagen PGM de la que parte la transición.
 @param "<FichImagenDestino>" Fichero que contiene la Imagen PGM a la que se llega al terminar la transición.
 @param "<DirectorioSalida>" Directorio donde se almacenará el video generado.
 @param "<nf>" Número de pasos(fotogramas) para realizar la transformación.
+
+Ejemplo de ejecución:
+
+> ./morphing estudiante/datos/imagenes/chiguagua.pgm estudiante/datos/imagenes/broncano.pgm estudiante/datos/morphing/ 30
+
+Tras ejecutar el comando anterior, se creará un video con nf fotogramas. Dicho video será una transición entre las imágenes
+chiguagua.pgm y broncano.pgm, y se guardará en el directorio **estudiante/datos/morphing/**.
+
+
 
 */
