@@ -1,6 +1,11 @@
-/*! \mainpage Título de la página principal
+/*! \mainpage Práctica 3: Abstracción. TDA Vídeo
 
-@image html doxyque.png "Pie de foto"
+@image html portada.png "Portada de la práctica 3. Créditos a Max Verstappen, Lewis Hamilton, el chiguagua y David Broncano "
+
+# Índice
+1. [Introducción](#introducción)
+2. [Clase Video](#clase-video)
+
 
 # Información sobre Doxygen
 Doxygen admite el uso de la [sintaxis de Markdown (Consulta aquí los comandos básicos)](https://www.markdownguide.org/basic-syntax).
@@ -26,17 +31,388 @@ mayor parte de la sintaxis de Doxygen para comentar código en su
 
 A RELLENAR POR EL ESTUDIANTE
 
+
+# Clase Video
+
+En este apartado se pretende describir como hemos abordado la implementación de la clase Video. Dicha implementación la encontramos en el archivo
+video.cpp de nuestro proyecto, ubicado en la siguiente ruta: estudiante/src/video.cpp
+
+A continuación vamos a listar todos los métodos que componen la clase video y acompañados de una descripción. Dicha descripción no es
+una explicación de que es lo que hacen, para eso ya los hemos documentado en formato Doxygen, si no de **como lo hacen**. Con esto pretendemos
+demostrar la forma de pensar o la filosofía que hemos adoptado para realizar las funciones miembro de la clase Video y de dar a enteder porque las
+hemos implementado de esta forma y no de otra distinta.
+
+Para consultar la documentación en formato Doxygen podemos hacerlo mirando el archivo video.h o incluso desde esta misma página, pinchando en la
+barra superior en Clases, y una vez dentro en Video o T.D.A Video.
+
+Dicho esto, comenzamos con la descripción.
+
+##CONSTRUCTORES.
+
+- **Video::Video()**
+Es el constructor por defecto de la clase Video. En este constructor reservamos espacio para una imagen, es decir, capacity = 1 y size = 0.
+
+- **Video::Video(const Video &v)**
+Es el constructor de copia de la clase Video. En este constructor copiamos el contenido de un objeto Video pasado como parámetro a
+otro objeto Video que es el nuevo objeto que construimos. Ambos Videos serán idénticos, es decir, tendrán el mismo tamaño y las mismas imágenes.
+
+- **Video::Video(int n)**
+Es el constructor con parámetros de la clase Video. Se crea un objeto de la clase Video que tiene una capacidad inicial n, que n es un entero
+que recibe el constructor como parámetro. Entonces el vector tendrá una capacidad = n y un tamaño = 0
+
+- **Video::~Video()**
+Es el destructor de la clase Video. En este destructor liberamos la memoria que hemos reservado para el vector de imágenes de la clase Video.
+Para ello utilizamos la función clear() de la clase vector de la STL.
+
+## FUNCIONES ATÓMICAS O FUNDAMENTALES.
+###Una vez descritos los constructores de la clase Video, pasamos a describir las funciones atómicas o fundamentales de la clase Video.
+###Estas funciones son las únicas que deben de tocar la estructura interna de la clase, el resto de métodos de la clase no deberían de hacerlo.
+
+- **int Video::size() const**
+Devuelve el tamaño del video, es decir, el número de imágenes que contiene. Para realizar esto, llama a la función size() de la clase vector de la STL.
+
+- **Image& Video::operator[](int foto)**
+Permite acceder al fotograma especificado por su índice. Este metodo devuelve una referencia al objeto Image en la posición indicada por el parámetro
+foto dentro del vector de imágenes del video.
+
+- **const Image& Video::operator[](int foto) const**
+Accede de forma constante al fotograma especificado por su índice. Este metodo devuelve una referencia constante al objeto Image en la posición indicada
+por el parámetro foto dentro del vector de imágenes del video. Al ser un metodo constante, asegura que el contenido no será modificado.
+
+
+- **void Video::insertar(int k, const Image &i)**
+Insertar una imagen en la posición k del video. Para que sea posible esto, se crea un iterator del tipo vector<Image>, ya que nuestro vector **imagenes**
+de nuestra clase video no es más que un vector<Image> siendo vector un objeto de la clase vector de la STL. Este iterator se inicializa como la la posición
+del primer elemento del vector + k, llevándonos a la posición en la que queremos insertar la imagen. Una vez ahí, se llama a la función insert() de la clase
+vector de la STL, pasándole como parámetros el iterador y la imagen que deseamos insertar.
+
+- **void Video::borrar(int k)**
+Borrar la imagen en la posición k del video. La misma forma que utilizábamos para la función anterior insertar(...), nos sirve para esta función.
+Creamos nuestro iterador y lo llevamos a la posición k del vector, y una vez ahí, llamamos a la función erase() de la clase vector de la STL, pasándole como
+parámetro el iterador.
+
+## MÉTODOS ITERADORES DE LA CLASE VIDEO.
+
+- **vector<Image>::iterator Video::begin()**
+Devuelve un iterador al primer fotograma del video. Este metodo se basa en el vector de objetos Image que contiene los fotogramas, retornando un iterador que
+apunta al primer elemento del vector mediante una llamada al metodo begin() del vector de imágenes.
+
+- **vector<Image>::const_iterator Video::begin() const**
+Devuelve un iterador constante al primer fotograma del video. Utiliza el vector de objetos Image que contiene los fotogramas, retornando un iterador constante que
+apunta al primer elemento del vector mediante una llamada al metodo begin() del vector de imágenes. Al ser un metodo constante, garantiza que no se modificarán los datos.
+
+- **vector<Image>::iterator Video::end()**
+Devuelve un iterador que apunta al elemento siguiente al último fotograma del video. Este metodo se basa en el vector de objetos Image que contiene los fotogramas,
+retornando un iterador que marca el final del vector mediante una llamada al metodo end() del vector de imágenes.
+
+- **vector<Image>::const_iterator Video::end() const**
+Devuelve un iterador constante que apunta al elemento siguiente al último fotograma del video. Este metodo utiliza el vector de objetos Image que contiene los
+fotogramas, retornando un iterador constante que marca el final del vector mediante una llamada al metodo end() del vector de imágenes. Al ser constante,
+garantiza que no se modificarán los datos.
+
+- **vector<Image>::const_reverse_iterator Video::rbegin()**
+Devuelve un iterador constante inverso que apunta al último fotograma del video. Utiliza el vector de objetos Image que contiene los fotogramas, retornando un
+iterador constante que comienza desde el último elemento del vector mediante una llamada al metodo rbegin() del vector de imágenes. Al ser un iterador constante,
+garantiza que no se modificarán los datos.
+
+- **vector<Image>::const_reverse_iterator Video::rbegin() const**
+Devuelve un iterador constante inverso que apunta al último fotograma del video. Este metodo utiliza el vector de objetos Image que contiene los fotogramas,
+retornando un iterador constante que comienza desde el último elemento del vector mediante una llamada al metodo rbegin(). Al ser un metodo constante, asegura
+que los datos no serán modificados.
+
+## MÉTODOS DE LA CLASE VIDEO.
+
+### Hasta aquí ya tenemos los constructores, funciones atómicas y los métodos iteradores de la clase Video. A continuación vamos a describir los métodos
+### que son los que realmente le dan funcionalidades a la clase Video, como leerlos y escribirlos  ó hacer un rebobinado o un morphing.
+
+-  **bool Video::LeerVideo(const string & path)**
+    Es una función booleana que consiste en leer un video o una secuencia de imágenes desde un directorio, el cual se pasa como parámetro.
+    Para esta función tenemos que hacer uso de la libreria **filesystem**, la cual se encuentra disponiable **a partir de la versión C++17**. Esta libreria
+    nos va a permitir trabajar con el sistema de archivos de C++ de una forma más sencilla y eficiente.
+    Es de gran importancia remarcar que esta librería tiene un iterador para ir recorriendo los elementos del directorio y obtiendo el path de las imágenes
+    el cual debemos de pasar a la funcion Image::Save(const char *file_path) para que lea la imagen. Ahora, vamos a tener que leerlas dos veces, debido a que
+    el iterador de la librería filesystem nos devuelve los elementos de forma desordenada, entonces si voy leyendo las imágenes y las voy insertando en el video,
+    este estará completo pero **desordenado**.
+
+    Para solucionar esto, una forma muy ingeniosa que se nos ocurrió fue que en la primera lectura de las imágenes guardar el nombre de estas en un vector
+    de strings, y una vez que tengamos todas las imágenes leidas, ordenamos sus nombres y ya podemos volver a leerlas de nuevo, pero esta vez de forma ordenada, y
+    ya las vamos insertando en el video. Esto es posible ya que el path que le pasamos a la función LeerVideo() es, por ejemplo, así: "/estudiante/datos/imagenes/football",
+    y el nombre de las imágenes que se encuentran en ese directorio son: football_0001.pgm, football_0002.pgm, etc. Entonces, una vez que tengamos todos los nombres de las
+    imágenes en el vector de strings y esten ordenados, lo único que tenemos que hacer es concatenar el path con el nombre de la imagen y ya tenemos el path completo de la
+    imagen que queremos leer, que quedaría como por ejemplo: "/estudiante/datos/imagenes/football/football01.pgm", y este es el parámetro que le pasamos a la función
+    Image::Save() para que lea la imagen.
+
+    Entonces, lo primero que vamos a hacer en nuestro código es crear una variable de tipo **path**, a la que llamaremos ruta y que será la que contenga el directorio
+    que le pasamos como parámetro. Una vez hecho esto, vamos a crear un vector de strings, a la que llamaremos **nombresImagenes**, que será el que contenga los nombres
+    de las imágenes como su propio nombre indica.
+
+    A continuación, comprobamos que la ruta que le pasamos como parámetro exista y sea un directorio, en caso de que no sea asi devolvemos false y terminamos.
+    Una vez que comprobamos esto, vamos a recorrer el directorio con bucle for y un iterator de tipo directory_iterator(ruta). Primero comprobamos si el elemento actual es una imagen ".pgm"
+    y si lo es, creamos un objeto img de la clase Image y comprobamos si se puede leer la imagen, pasándole como parámetro el path de la misma. Si se ha podido leer la imagen,
+    la insertamos en el vector nombresImagenes, si no se ha podido leer la imagen, devolvemos false y terminamos. Una vez que hayamos leido todas las imágenes de directorio, sólo
+    falta ordenarlas e insertarlas en el video. Pues bien, para ordenarlas, utilizamos la función sort() de la STL (debemos de incluir la librería algorithm), y una vez ordenadas,
+    volvemos a leerlas pero esta vez pasándole como parámetro a la función Image::Save() el path completo + el nombre de la imagen, y ya las vamos insertando en el video haciendo uso
+    de la función insertar() de la clase Video que hemos descrito anteriormente.
+
+    Por último, si hemos llegado hasta aquí, devolvemos true, indicando que la lectura del video ha sido correcta.
+
+    Nos gustaría dejar el código por si se quiere ir viendo a la misma vez que se lee la explicación anterior.
+
+    ```cpp
+    bool Video::LeerVideo(const string & path){
+
+        fs::path ruta = path;  // Ruta del directorio donde se encuentran las imágenes.
+
+        vector<string> nombresImagenes;  // Vector auxiliar para almacenar las imágenes.
+
+        if (fs::exists(ruta) && fs::is_directory(ruta)){    // Verificamos que el path sea un directorio.
+
+            for (const auto &it : fs::directory_iterator(ruta)){    // Iteramos sobre los archivos del directorio.
+
+                if (it.path().extension() == ".pgm"){       // Verificamos que el archivo sea una imagen PGM.
+                    Image img;
+                    bool resultado = img.Load(it.path().c_str());   // c_str() hace una conversión para devolver un puntero a char.
+
+                    if (resultado)  // Si se ha podido leer la imagen, la añadimos al vector de imagenes.
+                        nombresImagenes.push_back(it.path().filename());
+
+                    else{       // Si nos se ha podido leer la imagen, mostramos un mensaje de error.
+                        cout << "Error al leer la imagen: " << it.path().filename() << endl;
+                        cout << "Se finaliza la lectura del video." << endl;
+                        return false;
+                    }
+                }
+            }
+        }
+
+
+        else{   // Si el path no es un directorio, finalizamos la lectura del video.
+            cout << "Error: " << path << " no es un directorio valido para leer el video." << endl;
+            cout << "Se finaliza la lectura del video." << endl;
+            return false;
+        }
+
+        sort(nombresImagenes.begin(), nombresImagenes.end());    // Ordenamos las imágenes en el vector auxiliar.
+        cout << "---Imagenes ordenadas.---" << endl;
+
+        for(int i = 0; i < nombresImagenes.size(); i++){
+            Image img;
+
+            bool resultado = img.Load((path + nombresImagenes[i]).c_str());
+            if (resultado){
+                this->insertar(i, img);   // Llamo a la función insertar de la clase Video para añadir la imagen al video.
+            }
+        }
+
+        cout << "---Imagenes añadidas al video.---" << endl;
+
+        cout << "El video se ha leido con éxito." << endl;
+        return true;
+    }
+    ```
+
+- **bool Video::EscribirVideo(const string & path, const string &prefijo)const**
+    Es una función booleana que consiste en escribir un video o una secuencia de imágenes en un directorio. Los parámetros de esta función son el path (el
+    directorio donde se desea almacenar el video) y el prefijo que llevarán los fotogramas cuando los guardemos en el directorio. Al igual que en la función
+    LeerVideo(), vamos a tener que hacer uso de la librería filesystem para poder trabajar con el sistema de archivos de C++. Aunque en este caso no va a ser
+    tan compleja como su función inversa, ya que no vamos a tener que ordenar las imágenes, simplemente vamos a recorrer el vector de imágenes de la clase Video
+    y las vamos a ir guardando.
+
+    Bien, pues en primer lugar vamos a definir una variable de tipo path, a la que llamaremos ruta y que será la que contenga el directorio donde se va a guardar
+    el video. A continuación, vamos a comprobar si el video no está vacío, es decir, tiene fotogramas. Esto es imprescindible ya que **el video que llama a la
+    función EscribirVideo() será el que se guarde en el disco**. Si el video está vacío, devolvemos false y terminamos. Si el video no está vacío, comprobamos
+    que la ruta que le pasamos como parámetro exista y sea un directorio, en caso de que no sea asi devolvemos false y terminamos. Una vez que comprobamos esto,
+    realizamos un bucle for que recorre el vector de imágenes de la clase Video. En cada iteración del bucle se crea un objeto img de la clase Image que se inicializa
+    con la imagen que se encuentra en la posición i del vector de imágenes del video. Una vez hecho esto, calculamos el path completo donde se guardará la imagen, que
+    está formado por el ** path + prefijo + indice i + ".pgm" ** (path y prefijo son pasados como parámetros a la función), el ínidce i es el número de la imagen que
+    se está guardando ( y que previamente debemos de convertir de int a string utilizando la función to_string(i)) y por último la extensión de la imagen ".pgm". Una vez
+    que tenemos el path completo, llamamos a la función Image::Save() pasándole como parámetro el path completo y guardamos la imagen. Si finaliza el bucle for cuando llegue
+    a la última imagen (y no se ha salido antes por algún error), quiere decir que la escritura del video ha sido correcta, por lo que devolvemos true y finalizamos la función.
+
+    De nuevo, mostramos el código de la función:
+
+    ```cpp
+    bool Video::EscribirVideo(const string & path, const string &prefijo)const{
+
+        fs::path ruta = path;
+
+        if(this->size() > 0){   // Compruebo que el video no esta vacio.
+
+            if(fs::exists(ruta) && fs::is_directory(ruta)){     //Compruebo que el path existe y es un directorio.
+
+                for(int i = 0; i < imagenes.size(); i++){
+                    Image img = (*this)[i];
+                    string path_completo = path + prefijo + to_string(i) + ".pgm";
+
+                    if(!img.Save(path_completo.c_str())){
+                        cout << "Imagen: " << prefijo + to_string(i) + ".pgm" << " no ha podido ser escrita" << endl;
+                        cout << "Se cancela la escritura del video." << endl;
+                        return false;
+                    }
+                }
+            }
+
+            else{
+                cout << "Error: " << path << " no es un directorio valido para escribir el video." << endl;
+                cout << "Se finaliza la escritura del video." << endl;
+                return false;
+            }
+        }
+
+        else{
+            cout << "El video esta vacio, no tiene fotogramas." << endl;
+            cout << "Se finaliza la escritura del video." << endl;
+            return false;
+        }
+
+        cout << "La escritura del video en el disco se ha realizado con exito" << endl;
+        return true;
+    }
+    ```
+
+- **Video Video::Rebobinar(const Video &v)**
+    Esta función invierte los fotogramas del video que se pasa como parámetro, almacenando los fotogramas invertidos en el vector de
+    imágenes del objeto Video que invoca la función.
+
+    Primero se comprueba que el video pasado como parámetro tenga al menos 2 fotogramas, luego se vacia el vector de imagenes del objeto
+    que invoca la función, borrando todos los fotogramas que tuviese almacenados y se reserva un espacio en el vector imagenes del objeto que
+    invoca la función igual al tamaño del vector imagenes del video pasado como parametro. La inversión de los fotogramas se realiza utilizando
+    un iterador inverso (rit), que recorre el video pasado como parámetro desde rbegin() hasta rend(), es decir, desde el último fotograma hasta
+    el primero. En cada iteración, el fotograma al que apunta rit se almacena en el vector de imágenes del objeto Video que invoca el metodo.
+    Finalmente, la función devuelve *this, que es el video actual (el que invoca la función) con los fotogramas invertidos del video pasado
+    como parametro.
+
+    El código de la función es el siguiente:
+
+    ```cpp
+    Video Video::Rebobinar(const Video &v){
+
+        assert(v.size() > 1);           // Comprobamos que el video de origen v no esta vacio.
+
+        imagenes.clear();               // Borramos las imagenes de este video (*this).
+        imagenes.reserve(v.size());     // Reservamos tanto espacio en este video como imagenes tiene el video de origen.
+        int i = 0;
+
+        for (vector<Image>::const_reverse_iterator rit = v.rbegin(); rit != v.rend(); ++rit){
+            insertar(i, *rit);
+            i++;
+        }
+
+        return *this; // Devolvemos el video con las imagenes en orden inverso.
+    }
+    ```
+
+- **Video Video::Morphing(const Image &I1, const Image &I2, int nf)**
+    Es una función que crea un objeto video de la clase Video a partir de dos imágenes, **I1 e I2**, que son objetos de la clase Image y
+    que se pasan como parámetros a la función. El video esta formado por 2 o más imágenes, tantas como deseemos, y ese número de
+    viene indicado en **nf**, siendo este un objeto de tipo int que se pasa como parámetro a la función. En realidad no es sólo el número
+    de imágenes que tendrá nuestro video generado, si no que es el número de pasos - 2 que se van a realizar para pasar de la imagen I1 a la
+    imagen I2, este proceso se conoce como **MORPHING**. El morphing es una técnica de animación que consiste en la transformación gradual de
+    una imagen en otra, creando una ilusión de transformación o movimiento. Para realizar esto, vamos a tener que hacer uso de una fórmula:
+                            ** valor_pixel = I1 * (1-i/nf) * (I2*i)/nf **
+    donde:
+    - valor_pixel es el valor que tomará el pixel nºx (x porque dependerá del nº en el que nos encontremos) para el que se está calculando la fórmula.
+    - I1 el valor del pixel nºx de la Imagen 1.
+    - I2 el valor del pixel nºx de la Imagen 2.
+    - i es el número del fotograma o imagen en el que nos encontramos.
+    - nf es el número de pasos que se van a realizar para pasar de la imagen I1 a la imagen I2.
+
+    Pues bien, nuestro vector de imagenes, o tambien llamado video tendrá nf imágenes, donde la primera imagen será la imagen I1 y la última
+    imagen I2, el resto son pasos inntermedios los cuales no sabemos que valores tinen sus pixeles (recordemos que sólo pueden ir de 0 negro a
+    255 blanco), pues esta fórmula nos va a permitir calculando y nos va a permitir ir cambiando conforme vayamos avnazando, por lo que no habrá
+    dos imágenes iguales, todas irán cambiando de I1 a I2 y cada vez más a medida que nos acercamos al final del video.
+
+    Pues nuestra propuesta para este ejericicio es la siguiente:
+
+    Destacar que el morphing se va a realizar sobre el video que llama a la funcion Morphing(), es decir, el objeto apuntado por el puntero *this.
+    También destacar que la función sólo va a funcionar si I1 e I2 tienen el mismo tamaño, es decir, el mismo número de filas y el mismo numero de columnas. Tendrán filas*columnas pixeles, y las imágenes generadas serán de igual tamaño. El video sólo tendrá imágenes del mismo tamaño.
+
+    Pues bien, en primer lugar comenzamos comprobando que I1 e I2 tienen el mismo tamaño, y además que nf es > 0. Una vez hecho y esto, si todo
+    a ido bien, el programa seguirá en ejecución y lo próximo será preparar el video que contendrá el morphing. Para ello, vamos a llamar a la función
+    clear() de la clase vector de la STL, para que si el video tiene imágenes estas sean eliminadas, dejando el vector limpio, es decir, con tamaño = 0 y
+    capacidad = 0. Lo siguiente será llamar a otra función de la clase vector de la STL, reserve(nf), que nos va a permitir reservar espacio para nf imágenes.
+    Ahora nuestro vector tendrá capacidad = nf y tamaño = 0. Lo siguiente es hacer un bucle for en el que la variable i (de tipo double) va a ir desde 0 hasta nf,
+    y en cada iteracion se va a crear un objeto img de la clase Image que tendrá el tamaño de I1 y todos sus pixeles inicializados a 0. Déspues tenemos dos bucles for
+    anidados, donde el primer bucle for va a recorrer las filas de la imagen y el segundo bucle for va a recorrer las columnas de la imagen. Una vez dentro declaramos
+    dos variables v1 y v2 de tipo coma flotante que van a ser los valores de los pixeles de las imágenes I1 e I2 respectivamente. Para obtener dichos valores, tenemos
+    que llamar a la función get_pixel(k, f) de la clase Image, donde k y f son los índices de la fila y la columna respectivamente, de los bucles for declarados anteriormente.
+    La función get_pixel(k, f) nos va a devolver el valor del pixel, es decir, nos va a devolver un pixel declarado en la clase Image, que no es más que un
+    unsigned char. Por lo que le hacemos un casting a double y nos valdría. Llegados a este punto, tenemos que calcular ahora sí, el valor del pixel de la imagen, para ello
+    hacemos uso de la fórmula que hemos descrito anteriormente, sustituyendo I1 por v1, I2 por v2, i por el valor que corresponda y nf sigue igual.
+    El valor que nos devuelva la fórmula lo guardamos en un objeto de tipo pixel, realizando el casting de double a pixel ya que el valor que nos acaba de devolver la fórmula
+    es un double. Una vez hecho esto, llamamos a la función set_pixel(k, f, pixel) de la clase Image, donde k y f son los índices de la fila y la columna respectivamente, y valor_pixel
+    es el valor de la fórmula que acabamos de castear. **Estos casteos los realizamos para que no haya problemas a la hora de redondear, teniendo un redondeo excesivo y poniendo
+    un nivel de gris que no corresponde, arruinando el morphing**. Una vez que hemos calculado todos los pixeles de la imagen, la insertamos en el video, llamando a la función
+    insertar(i, img) de la clase Video, donde i es el indice donde insertar la imagen dentro del video y img es la imagen que queremos insertar.
+
+    Si todo ha ido bien, devolvemos el video con el morphing realizado, es decir, devolvemos el objeto actual.
+
+    El código de la función es el siguiente:
+
+    ```cpp
+    Video Video::Morphing(const Image &I1, const Image &I2, int nf){
+
+
+        assert( (I1.get_rows() == I2.get_rows()) && (I1.get_cols() == I2.get_cols()));  //Comprobamos que se han introducido correctamente los parámetros.
+        assert(nf > 0);
+
+        cout << "Los parametros introducidos son correctos." << endl;
+        cout << "Se procede a realizar el morphing. Espere un momento..." << endl;
+
+        imagenes.clear();           // Borramos las imagenes de este video.
+        imagenes.reserve(nf);       // Reservamos espacio para nf imagenes.
+
+        for (double i = 0; i < nf; i++){  // Indice i de la imagen en la que nos encontramos.
+
+            Image img(I1.get_rows(), I1.get_cols(), 0);        // Creo la imagen que ira en la posicion i del vector.
+
+            for(int k = 0; k < img.get_rows(); k++){
+                for(int f = 0; f < img.get_cols(); f++){
+
+                    double v1 = static_cast<double>(I1.get_pixel(k, f));
+                    double v2 = static_cast<double>(I2.get_pixel(k, f));
+
+                    double valor = (v1 * (1-(i/nf))) + ((v2*i)/nf);      // Formula para hacer morphing.
+
+                    pixel valor_pixel = static_cast<pixel>(valor);
+
+                    img.set_pixel(k, f, valor_pixel);
+                }
+            }
+
+                this->insertar(i, img); // Añado la imagen al video.
+        }
+
+        cout << "El morphing se ha realizado correctamente." << endl;
+        return *this;
+    }
+    ```
+
+## Implementacion
+
+
 # Ejecutables
 
-@image html invert.png
-## Negativo:
+## Rebobinar:
 
-Calcula el negativo de una imagen
+@image html rebobinar.png
 
-> __negativo__ \<FichImagenOriginal\> \<FichImagenDestino\>
+Esta función rebobina un vídeo. Para ello crea un video con los fotogramas del video original en orden inverso.
+
+> __rebobinar__ \<FichImagenOriginal\> \<FichImagenDestino\>
 @param "<FichImagenOriginal>" Imagen PGM a la que se va a calcular
 @param <FichImagenDestino> Imagen PGM resultado de calcular el negativo
 
+## Morphing:
 
+@image html ejemplo_morphing.png
+
+Crea un video donde sus fotogramas son una transición entre imágenes, creando una ilusión de transformación.
+
+> __morphing__ \<FichImagenOriginal\> \<FichImagenDestino\> \<DirectorioSalida\> \<nf\>
+@param "<FichImagenOriginal>" Fichero que contiene la Imagen PGM de la que parte la transición.
+@param "<FichImagenDestino>" Fichero que contiene la Imagen PGM a la que se llega al terminar la transición.
+@param "<DirectorioSalida>" Directorio donde se almacenará el video generado.
+@param "<nf>" Número de pasos(fotogramas) para realizar la transformación.
 
 */
