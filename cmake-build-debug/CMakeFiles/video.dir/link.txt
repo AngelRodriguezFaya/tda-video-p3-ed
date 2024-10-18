@@ -1,0 +1,2 @@
+/usr/bin/ar qc libvideo.a CMakeFiles/video.dir/estudiante/src/video.cpp.o CMakeFiles/video.dir/estudiante/src/image.cpp.o CMakeFiles/video.dir/estudiante/src/imageop.cpp.o CMakeFiles/video.dir/estudiante/src/imageIO.cpp.o
+/usr/bin/ranlib libvideo.a

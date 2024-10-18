@@ -1,6 +1,6 @@
 PROJECT_NAME           = "TDA Video"
-OUTPUT_DIRECTORY       = /home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/doc_doxygen/
-INPUT                  = /home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/estudiante/include /home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/estudiante/src /home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/estudiante/doc
+OUTPUT_DIRECTORY       = /home/angel_rodriguez/Escritorio/Practica_3_TDA_Video/cmake-build-debug/doc_doxygen/
+INPUT                  = /home/angel_rodriguez/Escritorio/Practica_3_TDA_Video/estudiante/include /home/angel_rodriguez/Escritorio/Practica_3_TDA_Video/estudiante/src /home/angel_rodriguez/Escritorio/Practica_3_TDA_Video/estudiante/doc
 GENERATE_LATEX         = NO
-IMAGE_PATH             = /home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/estudiante/doc
+IMAGE_PATH             = /home/angel_rodriguez/Escritorio/Practica_3_TDA_Video/estudiante/doc
 EXTRACT_PRIVATE        = NO

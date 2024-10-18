@@ -21,6 +21,11 @@
 		{
 			"isCMake" : true,
 			"isExternal" : true,
+			"path" : "/home/angel_rodriguez/PROGRAMAS/JetBrains/CLion/CLion-2024.2.2/clion-2024.2.2/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeUnixFindMake.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
 			"path" : "/home/angel_rodriguez/PROGRAMAS/JetBrains/CLion/CLion-2024.2.2/clion-2024.2.2/bin/cmake/linux/x64/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake"
 		},
 		{
@@ -796,8 +801,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug",
-		"source" : "/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video"
+		"build" : "/home/angel_rodriguez/Escritorio/Practica_3_TDA_Video/cmake-build-debug",
+		"source" : "/home/angel_rodriguez/Escritorio/Practica_3_TDA_Video"
 	},
 	"version" : 
 	{

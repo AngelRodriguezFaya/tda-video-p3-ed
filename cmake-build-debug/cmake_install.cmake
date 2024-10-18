@@ -1,4 +1,4 @@
-# Install script for directory: /home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video
+# Install script for directory: /home/angel_rodriguez/Escritorio/Practica_3_TDA_Video
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/angel_rodriguez/Escritorio/UNIVERSIDAD/3er_CURSO_24-25/1erSemestre/Practicas-1er-Semestre/ED-Practicas/Practica_3_TDA_Video/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/angel_rodriguez/Escritorio/Practica_3_TDA_Video/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
